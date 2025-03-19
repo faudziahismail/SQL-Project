@@ -5,7 +5,7 @@ This project focuses on data cleaning and exploratory data analysis(EDA) using S
 - **Data Cleaning** : Removed Duplicates, Standardize the Data, Missing values and Remove Any Columns
 - **EDA** : Analyzing the layoffs trends in various companies across different industry sectors
 
-# Skills and Tools 
+# Tools 
 - I used the MySQL program to write in the SQL Language to query from the dataset.
 
 # Datasets 
