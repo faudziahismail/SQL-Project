@@ -13,4 +13,4 @@ This project focuses on data cleaning and exploratory data analysis(EDA) using S
   [Alex the Analyst-SQL Course](https://www.youtube.com/watch?v=OT1RErkfLNQ)
   
 # Next Steps 
-I plan to documnet my queries and findings in detail soon. Stay tuned for updates!
+I plan to document my queries and findings in detail soon. Stay tuned for updates!
