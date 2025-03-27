@@ -2,7 +2,7 @@
 This project focuses on data cleaning and exploratory data analysis(EDA) using SQL. Best practice approach were used to prepare and analyze dataset.
 
 # Key Task 
-- **Data Cleaning** : Removed Duplicates, Standardize the Data, Missing values and Remove Any Columns
+- [Data Cleaning](#-data-cleaning) : Removed Duplicates, Standardize the Data, Missing values and Remove Any Columns
 - **EDA** : Analyzing the layoffs trends in various companies across different industry sectors
 
 # Tools 
