@@ -141,7 +141,7 @@ WHERE COUNTRY LIKE 'UNITED STATES%'
 After: <br>
 <KBD><img width="155" alt="image" src="https://github.com/user-attachments/assets/bcb7a316-7508-4e03-8798-89969e35da5c" />
 
-- Changing the Date which is a string type into a standard date format.
+- Changing the Date which is a text into a standard date format and date type.
   
 ```sql
 SELECT `date`
@@ -152,12 +152,71 @@ FROM LAYOFSS_STAGING2
 UPDATE LAYOFSS_STAGING2
 SET`date` = STR_TO_DATE('date`,%m,%d,%Y)
 ;
+
+ALTER TABLE LAYOFFS_STAGING2
+MODIFY COLUMN `date` DATE;
 ```
 
 Before: <br>
-<kbd><img width="56" alt="B4String2Date" src="https://github.com/user-attachments/assets/77a5c672-9b60-4180-a053-fa0f7f46ede2" />
+<kbd><img width="80" alt="B4String2Date" src="https://github.com/user-attachments/assets/77a5c672-9b60-4180-a053-fa0f7f46ede2" />
 
 After:<br>
-<kbd><img width="205" alt="image" src="https://github.com/user-attachments/assets/ad767eb2-2991-45b1-92ab-16da3151caf9" />
+<kbd><img width="80" alt="image" src="https://github.com/user-attachments/assets/c7acbc8d-d317-4bf0-ae01-3ef279fe633e" />
+
+4. Remove Nulls and Blanks
+- Change Blank Values into Nulls
+- Populate the blanks with existing data using JOIN tables
+
+  ```sql
+  UPDATE layoffs_staging2
+  SET industry = NULL
+  WHERE indusry = ''
+  ;
+  SELECT *
+  FROM layoffs_staging2 t1
+  JOIN layofss_staging2 t2
+      ON t1.company = t2.company
+  WHERE (t1.industry IS NULL OR t1.industry = '')
+  AND t2.industry IS NOT NULL
+
+  UPDATE layoffs_staging2 t1
+  JOIN layofss_staging2 t2
+    ON t1.company = t2.company
+  SET t1.industry =t2.industry
+  WHERE t1.industry IS NULL
+  AND t2.industry is NOT NULL
+  ;
+  ```
+**Before**<br>
+<kbd><img width="500" alt="image" src="https://github.com/user-attachments/assets/c45f0bf2-7560-4b2f-be6c-51d69228b044" />
+
+  
+**Results** : <br>
+<kbd><img width="500" alt="image" src="https://github.com/user-attachments/assets/4c7d76ee-9cd3-4538-8397-bcd5dfb7425e" />
+
+5. Remove Columns & Rows
+- Delete Rows wherer total_laif_off is blank and percentage_laid_off is NULL
+- Absent values on these 2 columns makes the data irrelevant
+
+```sql
+DELETE
+FROM layoffs_staging2
+WHERE total_laid_off IS NULL
+AND percentage_laid_off IS NULL
+;
+```
+Previously, we created a row_num column to filter out duplicates in every column.<br>
+Now, we are dropping the column as we do not need it anymore.
+
+```sql
+ALTER TABLE layoffs_staging2
+DROP COLUMN ROW_NUM;
+```
+**Before**:<br>
+<kbd><img width="123" alt="image" src="https://github.com/user-attachments/assets/bc5a0e6f-bdff-4f92-9b9e-ea2b57e02a2b" />
+
+**Results**:<br>
+
+<kbd><img width="123" alt="image" src="https://github.com/user-attachments/assets/c77be6ca-e2ac-43bb-9a01-e22dd2f8c5a6" />
 
 
