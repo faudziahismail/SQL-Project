@@ -19,7 +19,7 @@ I plan to document my queries and findings in detail soon. Stay tuned for update
 
 1. Create a layoff staging table which maintains the intergrity of the original raw data
   - layoffs_staging is a duplicate of the origanal table 
-```
+```sql
 CREATE TABLE LAYOFFS_STAGING   
 LIKE LAYOFFS;
 
@@ -36,7 +36,7 @@ FROM LAYOFFS
 
 To do this, we will need to create a Common Table Expression (CTE) to store and partition it for every column. This feedbacks it back into the row_num column.  
 
-```
+```sql
 (SELECT *, 
  ROW_NUMBER () OVER(
  PARTITION BY COMPANY,LOCATION, INDUSTRY, TOTAL_LAID_OFF, PERCENTAGE_LAID_OFF, `DATE`,STAGE
@@ -46,7 +46,7 @@ FROM layoffs_staging
 ```
 
 This returns back the rows that has any repetition by filter using row num > 1 .
-```
+```sql
 SELECT *
 FROM DUPLICATE_CTE
 WHERE ROW_NUM >1
@@ -56,11 +56,11 @@ WHERE ROW_NUM >1
 **Results**: <br>
 This displays the lists of companies that has duplicates.
 
-<kbd><img width="452" alt="Removeduplicate" src="https://github.com/user-attachments/assets/aa7f886c-a4fe-4ce2-b735-0941bd6959e7" />
+<kbd><img width="500" alt="Removeduplicate" src="https://github.com/user-attachments/assets/aa7f886c-a4fe-4ce2-b735-0941bd6959e7" />
 
 Now we create second table with the same columns and an additional row_num column into another database layoffs_staging2, to filter out to duplicates as shown above. As CTE cannot be directly deleted.
 
-```
+```sql
 CREATE TABLE `layoffs_staging2` (
   `company` text,
   `location` text,
@@ -77,7 +77,7 @@ CREATE TABLE `layoffs_staging2` (
 
 Insert the data from layofss_staging into layoffs_staging2. Delete company that have the row_num > 1.
 
-```
+```sql
 INSERT INTO LAYOFFS_STAGING2
 SELECT *, 
  ROW_NUMBER () OVER(
@@ -97,11 +97,67 @@ Removed the duplicates sucessfully! Here’s a snippet showcasing a cleaned data
 
 3. Standardize Data 
   - Trim <br>
-  Trim the white spaces on the front & back end of the company column.
+  Trim the white spaces on the front & back end of the company column. Then the updated company name to the trim(company) we have created.
 
+````sql
+SELECT Company, TRIM(Company)
+FROM layoffs_staging2
+;
+````
+**Results**: <br>
+<kbd><img width="123" alt="image" src="https://github.com/user-attachments/assets/c416c2b9-f346-4a44-9d2c-97bb4a475df6" />
+
+- Group the names of the same industry into one, as Crypto is also Crypto Currency.
+
+```sql
+UPDATE LAYOFFS_STAGING2 
+SET INDUSTRY = 'Crypto'
+WHERE INDUSTRY LIKE 'CRYPTO%'
+;
+```
+Before:<br>
+<kbd><img width="200" alt="image" src="https://github.com/user-attachments/assets/99e30e22-bb30-45e3-ad03-b332800ff6f0" />
+
+After:<br>
+<kbd><img width="130" alt="image" src="https://github.com/user-attachments/assets/5a336227-b3f6-4f11-bc8e-0d9d5fbb6101" />
+
+- Removing inconsistent data of country for the same name -United States into one.
+  
+Before:<br>
+<kbd><img width="145" alt="image" src="https://github.com/user-attachments/assets/1d4a0056-68dc-4536-ac29-e1d87e7d4fa4" />
+
+````SQL
+SELECT DISTINCT COUNTRY, TRIM(TRAILING '.' FROM COUNTRY)
+FROM layoffs_staging2
+ORDER BY 1;
+
+UPDATE layoffs_staging2 
+SET COUNTRY = trim(trailing '.' FROM country)
+WHERE COUNTRY LIKE 'UNITED STATES%'
+;
+````
+- Removed the '.' in United States and updated the column to the trimmed column country we made.
+  
+After: <br>
+<KBD><img width="155" alt="image" src="https://github.com/user-attachments/assets/bcb7a316-7508-4e03-8798-89969e35da5c" />
+
+- Changing the Date which is a string type into a standard date format.
+  
+```sql
+SELECT `date`
+STR_TO_DATE(`date`,'%m/%d/%Y',)
+FROM LAYOFSS_STAGING2
+;
+
+UPDATE LAYOFSS_STAGING2
+SET`date` = STR_TO_DATE('date`,%m,%d,%Y)
+;
 ```
 
+Before: <br>
+<kbd><img width="56" alt="B4String2Date" src="https://github.com/user-attachments/assets/77a5c672-9b60-4180-a053-fa0f7f46ede2" />
 
-
+After:<br>
+<kbd><img width="205" alt="image" src="https://github.com/user-attachments/assets/ad767eb2-2991-45b1-92ab-16da3151caf9" />
 
 
