@@ -249,9 +249,9 @@ We did some digging into the cleaned data to see insights into the trends on the
 
 ### 5. Total Layoffs by Year
 
-- Looking into individual dates for total laid off
+Looking into individual dates for total laid off.
 
-  <kbd><img width="127" alt="image" src="https://github.com/user-attachments/assets/370652ef-c5ba-4f13-8f6f-c1cf703328c8" />
+<kbd><img width="127" alt="image" src="https://github.com/user-attachments/assets/370652ef-c5ba-4f13-8f6f-c1cf703328c8" />
 
 For 2023, data of laid off is collected until March.
   
