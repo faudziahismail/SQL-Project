@@ -18,7 +18,7 @@ I plan to document my queries and findings in detail soon. Stay tuned for update
 ## 🧹 Data Cleaning 
 
 1. Create a layoff staging table which maintains the intergrity of the original raw data
-  - layoffs_staging is a duplicate of the origanal table 
+- layoffs_staging is a duplicate of the origanal table 
 ```sql
 CREATE TABLE LAYOFFS_STAGING   
 LIKE LAYOFFS;
@@ -91,13 +91,15 @@ FROM LAYOFFS_STAGING2
 WHERE ROW_NUM >1 ;
 ```
 **Results** :<br>
+
 Removed the duplicates sucessfully! Here’s a snippet showcasing a cleaned dataset for one company, confirming all duplicate rows have been eliminated.
 
 <kbd><img width="684" alt="Final_remove_Dup" src="https://github.com/user-attachments/assets/fd15cf6d-2e31-4c47-9fbd-a8d56c3b0f60" />
 
 3. Standardize Data 
-  - Trim <br>
-  Trim the white spaces on the front & back end of the company column. Then the updated company name to the trim(company) we have created.
+- Trim <br>
+  
+Trim the white spaces on the front & back end of the company column. Then the updated company name to the trim(company) we have created.
 
 ````sql
 SELECT Company, TRIM(Company)
@@ -225,37 +227,38 @@ We did some digging into the cleaned data to see insights into the trends on the
 
 ### 1. Max Number of Laid Off
 
-<kbd><img width="170" alt="image" src="https://github.com/user-attachments/assets/4780c221-6173-4980-9fdc-e34ebb08ae2d" />
+<kbd><img width="200" alt="image" src="https://github.com/user-attachments/assets/4780c221-6173-4980-9fdc-e34ebb08ae2d" />
 
 ### 2. Companies with 100% Workforce Laid Off 
 
 - This gives Katera with laying of all of its 2434 employees, leading to company closure.
   
-<kbd><img width="335" alt="image" src="https://github.com/user-attachments/assets/61dd3b04-7c21-4cbf-9841-75c1944febe7" />
+  <kbd><img width="335" alt="image" src="https://github.com/user-attachments/assets/61dd3b04-7c21-4cbf-9841-75c1944febe7" />
 
 ### 3. Companies with the Highest Total Layoffs
 
 
-<kvd><img width="104" alt="image" src="https://github.com/user-attachments/assets/799794d1-3653-4d76-a099-2785f39d96f7" />
+  <kvd><img width="143" alt="image" src="https://github.com/user-attachments/assets/799794d1-3653-4d76-a099-2785f39d96f7" />
 
 ### 4. Industries Most Affected by Layoffs
 
 - The industries with the highest layoffs during the COVID-19 pandemic are likely those heavily reliant on in-person interactions and consumer spending. Lockdowns, social distancing measures, and economic uncertainty significantly reduced foot traffic in retail stores, usage of transportation services, and other service-based sectors. As a result, companies in these industries faced revenue losses, leading to large-scale layoffs.
   
-<kbd><img width="113" alt="image" src="https://github.com/user-attachments/assets/e90b4640-1cab-4a5a-9b57-45cbd5f3f781" />
+  <kbd><img width="120" alt="image" src="https://github.com/user-attachments/assets/e90b4640-1cab-4a5a-9b57-45cbd5f3f781" />
 
 
 ### 5. Total Layoffs by Year
 
 - Looking into individual dates for total laid off
 
-<kbd><img width="127" alt="image" src="https://github.com/user-attachments/assets/370652ef-c5ba-4f13-8f6f-c1cf703328c8" />
+  <kbd><img width="127" alt="image" src="https://github.com/user-attachments/assets/370652ef-c5ba-4f13-8f6f-c1cf703328c8" />
 
 For 2023, data of laid off is collected until March.
   
-<kbd><img width="117" alt="image" src="https://github.com/user-attachments/assets/297d181d-1833-49f8-89f4-a6b7348b96be" />
+<kbd><img width="120" alt="image" src="https://github.com/user-attachments/assets/297d181d-1833-49f8-89f4-a6b7348b96be" />
 
 Thus, we conclude that highest year to be 2023 as the numbers is at 120000 only 3 months in.
+
 
 ### 6. Monthly Rolling Sum of Layoffs
 
