@@ -12,9 +12,6 @@ This project focuses on data cleaning and exploratory data analysis(EDA) using S
 - The dataset used in this project was provided by Alex The Analyst as part of his SQL course. You can find the original dataset and learning materials here:
   [Alex the Analyst-SQL Course](https://www.youtube.com/watch?v=OT1RErkfLNQ)
   
-# Next Steps 
-I plan to document my queries and findings in detail soon. Stay tuned for updates!
-
 ## 🧹 Data Cleaning 
 
 1. Create a layoff staging table which maintains the intergrity of the original raw data
